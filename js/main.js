@@ -27,8 +27,10 @@ const tag = t => {
   }
 };
 
+const tableRowTag = tag('tr');
+const tableRow = items => compose(tableRowTag, tableCell)(items);
 
-const tableCell = tag('tr');
+const tableCell = tag('td');
 const tableCells = items => items.map(tableCell).join('');
 
 
@@ -71,11 +73,25 @@ const validateInputs = ()=>{
 const add = ()=>{
   const newItem = {
     description: description.value,
-    calories: parseInt(description.value),
+    calories: parseInt(calories.value),
     carbs: parseInt(carbs.value),
     protein: parseInt(protein.value)
   }
+  list.push(newItem);
+  updateTotals();
   cleanInputs();
+}
+
+const updateTotals = ()=>{
+  let calories = 0, carbs = 0, protein = 0;
+  list.forEach(item =>{
+    calories += item.calories;
+    carbs += item.carbs;
+    protein += item.protein;
+  });
+  document.getElementById('totalCalories').textContent = calories;
+  document.getElementById('totalCarbs').textContent = carbs;
+  document.getElementById('totalProtein').textContent = protein;
 }
 
 const cleanInputs = ()=>{
